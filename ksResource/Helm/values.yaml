@@ -1,0 +1,6 @@
+# UI controll
+title: "Customer Service"
+
+# Service controlls
+serviceName: pica-azure-ms-customer
+serviceType: LoadBalancer

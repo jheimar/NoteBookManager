@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.serviceName }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.serviceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.serviceName }}
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+        - name: {{ .Values.serviceName }}
+          image: aespicaprodacr.azurecr.io/kallsonycustomercontainer:latest
+          ports:
+            - containerPort: 6379
+          env:
+            - name: TITLE
+              value: {{ .Values.title }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.serviceName }}
+spec:
+  type: {{ .Values.serviceType }}
+  ports:
+    - port: 6379
+  selector:
+    app: {{ .Values.serviceName }}
